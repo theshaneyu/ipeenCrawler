@@ -1,4 +1,5 @@
 .idea/
+backup/
 
 # Project stuff
 entrance/settings_database.py
