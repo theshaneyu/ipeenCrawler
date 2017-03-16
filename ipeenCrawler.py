@@ -134,6 +134,7 @@ class ipeenCrawler(object):
                 file.write(writeStr + '\n')
                 print('該餐廳第' + str(count) + '篇分享文已寫檔完畢')
                 count += 1
+                time.sleep(2)
 
 
     def main(self):
