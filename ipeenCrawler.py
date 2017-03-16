@@ -101,6 +101,7 @@ class ipeenCrawler(object):
                 print('已經爬完第' + str(pageCount) + '頁的分享文的網址')
                 pageCount += 1
 
+                time.sleep(2)
                 if len(nextPageButtonList) == 0: break
         
         print('v v v v v 這家餐廳的所有分享文的連結如下 v v v v v')
