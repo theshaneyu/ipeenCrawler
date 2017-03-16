@@ -1,4 +1,4 @@
-import requests, json, sys
+import requests, json, sys, time
 from bs4 import BeautifulSoup
 
 
@@ -133,6 +133,7 @@ class ipeenCrawler(object):
                 file.write(writeStr + '\n')
                 print('該餐廳第' + str(count) + '篇分享文已寫檔完畢')
                 count += 1
+                time.sleep(5)
 
 
 
