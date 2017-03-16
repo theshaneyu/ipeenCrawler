@@ -2,6 +2,10 @@
 backup/
 nohup/
 result/
+tfidf_result/
+cut_result/
+dict.txt.big.txt
+
 
 # Project stuff
 entrance/settings_database.py
