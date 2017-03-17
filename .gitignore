@@ -2,9 +2,14 @@
 backup/
 nohup/
 result/
+<<<<<<< HEAD
+nohup.out
+tfidfResult/
+=======
 tfidf_result/
 cut_result/
 dict.txt.big.txt
+>>>>>>> 0df39d9d7f7b0dbe1619f3610f4f3b0a214558b9
 
 
 # Project stuff
