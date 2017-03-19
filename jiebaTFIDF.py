@@ -1,5 +1,5 @@
 import jieba.analyse
-import sys
+import sys, re
 
 inputFilePath = sys.argv[1]
 outputFilePath = sys.argv[2]
@@ -13,18 +13,33 @@ with open(inputFilePath, 'r') as file:
 everyTop5InArticles = list()
 for article in bigAllArticlesList:
     articleResultList = jieba.analyse.extract_tags(article, topK=20, withWeight=True, allowPOS=())
-    if len(articleResultList) < 5:
-        for item in articleResultList:
-            if '.' or r'^[0-9]+$' or r'^[a-zA-Z]+$' in item[0]:
-                continue
-            everyTop5InArticles.append(item)
-    else:
-        for num in range(0, 5):
-            if '.' or r'^[0-9]+$' or r'^[a-zA-Z]+$' in articleResultList[num][0]:
-                continue
-            everyTop5InArticles.append(articleResultList[num])
+    appendCount = 0
+    for item in articleResultList:
+        if item[0] == '我們': break
+        
+        item = list(item)
+        string = re.match(u"[\u4e00-\u9fa5]+", item[0])
+        if string:
+            exist = False
+            if len(everyTop5InArticles) == 0:
+                everyTop5InArticles.append(item)
+            else:
+                for result in everyTop5InArticles:
+                    if result[0] == item[0]:
+                        exist = True
+                        result[1] += 0.5 # 如果出現重複，就把它的值提昇
+                        break
+                if exist == False:
+                    everyTop5InArticles.append(item)
+        else:
+            appendCount = appendCount - 1
+            continue
 
-print('===已開始排序===')
+        appendCount += 1
+        if appendCount > 10: break
+
+
+print('===已開始排序everyTop5InArticles===')
 everyTop5InArticles.sort(key=lambda x: x[1], reverse=True)
 
 # for item in everyTop5InArticles:

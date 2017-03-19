@@ -2,14 +2,13 @@
 backup/
 nohup/
 result/
-<<<<<<< HEAD
 nohup.out
 tfidfResult/
-=======
 tfidf_result/
 cut_result/
 dict.txt.big.txt
 /temp
+computeAll.sh
 
 
 # Project stuff
