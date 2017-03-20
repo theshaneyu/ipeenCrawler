@@ -9,13 +9,15 @@ with open(inputFilePath, 'r') as file:
     for item in file.readlines():
         bigAllArticlesList.append(item)
 
+# 結巴分析與斷詞過程已經有濾掉stopwords，只是有些還出現在文本裡
+stopwords = ['我們', '他們', '這裡', '真的', '這次', '其實', '非常', '這麼', '什麼', '可以', '不過', '雖然', '還是', '還有', '沒有', '不會', '有點', '這道', '這個', '這是', '裡面', '時候', '因為', '一整', '整個', '相當', '應該', '還蠻']
 
 everyTop5InArticles = list()
 for article in bigAllArticlesList:
     articleResultList = jieba.analyse.extract_tags(article, topK=20, withWeight=True, allowPOS=())
     appendCount = 0
     for item in articleResultList:
-        if item[0] == '我們': break
+        if item[0] in stopwords: break
         
         item = list(item)
         string = re.match(u"[\u4e00-\u9fa5]+", item[0])
