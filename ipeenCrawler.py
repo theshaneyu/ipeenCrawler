@@ -133,8 +133,8 @@ class ipeenCrawler(object):
 
 
     def main(self):
-
         self.getTypeUrl()
+        print('>>>>>>> 全部文章都已經爬完 <<<<<<<')
 
 
 
