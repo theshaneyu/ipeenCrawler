@@ -17,7 +17,7 @@ for article in bigAllArticlesList:
     articleResultList = jieba.analyse.extract_tags(article, topK=20, withWeight=True, allowPOS=())
     appendCount = 0
     for item in articleResultList:
-        if item[0] in stopwords: break
+        if item[0] in stopwords: continue
         
         item = list(item)
         string = re.match(u"[\u4e00-\u9fa5]+", item[0])
@@ -43,9 +43,6 @@ for article in bigAllArticlesList:
 
 print('===已開始排序everyTop5InArticles===')
 everyTop5InArticles.sort(key=lambda x: x[1], reverse=True)
-
-# for item in everyTop5InArticles:
-#     print(item)
 
 print('>>>已開始寫擋<<<')
 with open(outputFilePath, 'w') as file2:
