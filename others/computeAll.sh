@@ -1,0 +1,15 @@
+nohup python3 jiebaTFIDF.py ./result/Bake.txt ./tfidf_result/BakeResult.txt &
+nohup python3 jiebaTFIDF.py ./result/Barbecue.txt ./tfidf_result/BarbecueResult.txt &
+nohup python3 jiebaTFIDF.py ./result/Breakfast.txt ./tfidf_result/BreakfastResult.txt &
+nohup python3 jiebaTFIDF.py ./result/Buffet.txt ./tfidf_result/BuffetResult.txt &
+nohup python3 jiebaTFIDF.py ./result/ChineseCuisine.txt ./tfidf_result/ChineseResult.txt &
+nohup python3 jiebaTFIDF.py ./result/FastFood.txt ./tfidf_result/FastfoodResult.txt &
+nohup python3 jiebaTFIDF.py ./result/Hotpot.txt ./tfidf_result/HotpotResult.txt &
+nohup python3 jiebaTFIDF.py ./result/JapaneseCuisine.txt ./tfidf_result/JapaneseResult.txt &
+nohup python3 jiebaTFIDF.py ./result/Snack.txt ./tfidf_result/SnackResult.txt &
+nohup python3 jiebaTFIDF.py ./result/SweetSoup.txt ./tfidf_result/SweetSoupResult.txt &
+nohup python3 jiebaTFIDF.py ./result/ThemeRestaurant.txt ./tfidf_result/ThemeResult.txt &
+nohup python3 jiebaTFIDF.py ./result/Vegetarian.txt ./tfidf_result/VegetarianResult.txt &
+nohup python3 jiebaTFIDF.py ./result/WesternCuisine.txt ./tfidf_result/WesternResult.txt &
+nohup python3 jiebaTFIDF.py ./result/AsianCuisine.txt ./tfidf_result/AsianResult.txt &
+nohup python3 jiebaTFIDF.py ./result/Cafe.txt ./tfidf_result/CafeResult.txt &

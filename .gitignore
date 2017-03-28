@@ -1,17 +1,14 @@
-.idea/
-backup/
 nohup/
 result/
 nohup.out
 tfidfResult/
 tfidf_result/
-cut_result/
 dict.txt.big.txt
 /temp
-computeAll.sh
 AllArticles.txt
 med250.model.bin
-
+./iPeenWebAPI/TopCosineSimilarity/med250.model.bin
+./iPeenWebAPI/nohup.out
 
 
 
