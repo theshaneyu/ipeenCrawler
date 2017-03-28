@@ -1,10 +1,14 @@
 from gensim import models
 import numpy as np
 import jieba.analyse
-import re, pprint
+import re
 
 
 class exportToMongo(object):
+    """
+    exportToMongo類別用於計算每篇文章top20關鍵字，並計算它們的向量和，再將文章內容、前20關鍵字與向量加總放入MongoDB
+    需初始化成員filePath為文檔路徑，modelPath為word2vec訓練之model路徑，uri為MongoDB主機之uri
+    """
     def __init__(self, filePath, modelPath, uri):
         from pymongo import MongoClient
         self.file = open(filePath, 'r')
@@ -24,21 +28,21 @@ class exportToMongo(object):
     def tfidfProcess(self):
         """
         輸入：整個文檔
-        輸出：用來放所有文章關鍵字的list，長度為15萬（有15萬篇文章），每個entry有20個關鍵字
+        輸出：用來放所有文章關鍵字的list，長度為15萬（有15萬篇文章），每個entry為一個長度為20的list存放20個關鍵字
         """
         printCount = 0
-        returnList = list() # 用來放所有文章的斷詞，長度為15萬（有15萬篇文章），每個entry有20個關鍵字
-        for article in self.file.readlines(): # iterates over 一篇一篇的文章
+        returnList = list() # 用來放所有文章的關鍵字
+        for article in self.file.readlines(): # loops over 一篇一篇的文章
             kwList = list()
             articleResultList = jieba.analyse.extract_tags(article, topK=30, withWeight=True, allowPOS=())
             for item in articleResultList: # 一個item是 ('冰淇淋', 0.3858822943471564)
                 if len(kwList) < 20:
-                    if item[0] in self.stopwords: # 如果斷詞是stopword，則不掛進returnList
+                    if item[0] in self.stopwords: # 如果斷詞是stopword，則不放進returnList
                         continue
                     string = re.match(u"[\u4e00-\u9fa5]+", item[0])
                     if string:
                         kwList.append(item[0])
-                    else: # 如果斷詞不含中文字，則不掛進returnList
+                    else: # 如果斷詞不含中文字，則不放進returnList
                         continue
                 else:
                     break
@@ -62,7 +66,7 @@ class exportToMongo(object):
             oneArticleInfoDict = dict()
             for kw in kwList: # 初始化向量用
                 try:
-                    sumVec = np.zeros_like(model[kw]) # 全部都是0的250維向量
+                    sumVec = np.zeros_like(model[kw]) # 初始化一個250維向量
                     break
                 except:
                     continue
@@ -82,7 +86,6 @@ class exportToMongo(object):
             
             forPrinting += 1
             if forPrinting % 1000 == 0: print('已經塞完' + str(forPrinting) + '篇文章進資料庫')
-
 
 
     def main(self):

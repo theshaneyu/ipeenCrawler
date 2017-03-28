@@ -3,16 +3,20 @@ from bs4 import BeautifulSoup
 
 
 class ipeenCrawler(object):
+    """
+    ipeenCrawler類別可將愛評網上所有有關美食的分享文依照不同種類(共15種)爬蟲並寫檔
+    此類別需初始化成員typeNumber為餐廳種類代號
+    """
     def __init__(self, typeNumber):
         self.baseUrl = 'http://www.ipeen.com.tw'
-        # typeIndexDict有15種
+        # typeIndexDict存放每種餐廳類別的相關資訊，共15個種類
         self.typeIndexDict = {27:[1500, 'ChineseCuisine.txt'], 2:[500, 'JapaneseCuisine.txt'], 4:[150, 'AsianCuisine.txt'], 25:[500, 'WesternCuisine.txt'], 19:[200, 'Barbecue.txt'], 21:[400, 'Hotpot.txt'], 17:[1000, 'Cafe.txt'], 6:[50, 'Vegetarian.txt'], 9:[70, 'FastFood.txt'], 23:[150, 'ThemeRestaurant.txt'], 126:[150, 'Breakfast.txt'], 127:[15, 'Buffet.txt'], 8:[1000, 'Snack.txt'], 15:[300, 'SweetSoup.txt'], 7:[300, 'Bake.txt']}
         self.typeNumber = typeNumber
 
 
     def getTypeUrl(self):
         """
-        功能: loop over 每種type
+        功能: loops over 每種type
         輸出: 看typeIndexDict有幾個element就呼叫幾次soupProcess_Type，
               每次都丟一個「type網頁」給soupProcess_Type
         """
@@ -22,9 +26,8 @@ class ipeenCrawler(object):
         print('<===開始處理' + self.typeIndexDict[self.typeNumber][1] + '===>')
 
         for p in range(1, self.typeIndexDict[self.typeNumber][0]):
-            # print(typeUrlHead + str(self.typeNumber) + typeUrlTail + str(p))
             print('==========正在處理第' + str(p) + '頁的所有餐廳==========')
-            time.sleep(3)
+            time.sleep(4)
             res = requests.get(typeUrlHead + str(self.typeNumber) + typeUrlTail + str(p))
             self.soupProcess_Type(res.text)
 
@@ -32,7 +35,7 @@ class ipeenCrawler(object):
     def soupProcess_Type(self, resStr):
         """
         輸入: type的一頁網頁原始碼(一頁會有15家餐廳)
-        輸出: 得到一個15加餐廳的list，並根據List內容呼叫15次getSharePage
+        輸出: 得到一個15家餐廳的list，並根據List內容呼叫15次getSharePage
         """
         restaurantList = list()
         soup = BeautifulSoup(resStr, 'html.parser')
@@ -54,14 +57,14 @@ class ipeenCrawler(object):
         輸出: 一個餐廳的所有分享文網址串成一個List
         """
         # 找到該餐廳的「分享文」按鈕的url
-        time.sleep(3)
+        time.sleep(4)
         res = requests.get(restaurantUrl)
         soup = BeautifulSoup(res.text, 'html.parser')
         returnList = soup.select('#shop-header > nav > ul > li:nth-of-type(3) > a')
 
-        #query該餐廳的分享文按鈕的url
+        # query該餐廳的「分享文」按鈕的url
         if len(returnList) == 0 : pass
-        time.sleep(3)
+        time.sleep(4)
         resShare = requests.get(self.baseUrl + returnList[0]['href'])
         shareSoup = BeautifulSoup(resShare.text, 'html.parser')
 
@@ -85,10 +88,10 @@ class ipeenCrawler(object):
                 # 檢查用，存「下一頁」按鈕的連結
                 nextPageForCheck.append(self.baseUrl + nextPageButtonList[0]['href'])
                 # query下一頁按鈕
-                time.sleep(3)
+                time.sleep(4)
                 nextPageResponse = requests.get(self.baseUrl + nextPageButtonList[0]['href'])
                 nextPageSoup = BeautifulSoup(nextPageResponse.text, 'html.parser')
-                # 把下一頁的分享文的url掛進list
+                # 把下一頁的分享文的url放進list
                 for url in nextPageSoup.select('#comments > div.row > div > section > article > div > div.text > h2 > a'):
                     shareLinkList.append(self.baseUrl + url['href'])
                 #再找到它的下一頁按鈕
@@ -116,7 +119,7 @@ class ipeenCrawler(object):
         with open('./result/' + self.typeIndexDict[self.typeNumber][1], 'a') as file:
             count = 1
             for item in sharePageList:
-                time.sleep(3)
+                time.sleep(4)
                 res = requests.get(item)
                 soup = BeautifulSoup(res.text, 'html.parser')
 
